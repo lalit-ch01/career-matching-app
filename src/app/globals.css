@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+/* Design tokens. Light theme only — the app is a focused, form-heavy tool and
+   a single well-tested theme keeps contrast predictable for the demo. */
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial,
+    sans-serif;
+
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #dae6ff;
+  --color-brand-200: #bdd2ff;
+  --color-brand-500: #3b6cf6;
+  --color-brand-600: #2753e0;
+  --color-brand-700: #1f41b8;
+  --color-brand-900: #1a2d6b;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-slate-50 text-slate-800 antialiased;
+}
+
+/* Reusable building blocks (usable in markup and in @apply). */
+@utility container-page {
+  @apply mx-auto w-full max-w-5xl px-4 sm:px-6;
+}
+
+@utility card {
+  @apply rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6;
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors
+    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500
+    disabled:cursor-not-allowed disabled:opacity-60;
+}
+@utility btn-primary {
+  @apply btn bg-brand-600 text-white hover:bg-brand-700;
+}
+@utility btn-secondary {
+  @apply btn border border-slate-300 bg-white text-slate-700 hover:bg-slate-100;
+}
+@utility btn-ghost {
+  @apply btn text-brand-700 hover:bg-brand-50;
+}
+
+@utility field-label {
+  @apply block text-sm font-semibold text-slate-800;
+}
+@utility field-input {
+  @apply mt-1.5 block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-base text-slate-900
+    shadow-sm placeholder:text-slate-400 focus:border-brand-500 focus:outline-2 focus:outline-brand-200
+    aria-invalid:border-red-500;
+}
+@utility field-error {
+  @apply mt-1.5 text-sm text-red-700;
+}
+@utility field-help {
+  @apply mt-1 text-sm text-slate-500;
+}
+
+@utility link {
+  @apply font-medium text-brand-700 underline decoration-brand-200 underline-offset-2 hover:decoration-brand-600;
+}
+
+@utility eyebrow {
+  @apply text-xs font-semibold tracking-wider text-brand-600 uppercase;
+}

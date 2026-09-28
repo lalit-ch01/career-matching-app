@@ -1,0 +1,1155 @@
+{
+  "id": "135f86e1-c963-47cd-b194-9b9d41cd9858",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.assessment_responses": {
+      "name": "assessment_responses",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "student_profile_id": {
+          "name": "student_profile_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "questionnaire_version": {
+          "name": "questionnaire_version",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "answers": {
+          "name": "answers",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "profile_snapshot": {
+          "name": "profile_snapshot",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "submitted_at": {
+          "name": "submitted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "assessment_responses_student_submitted_idx": {
+          "name": "assessment_responses_student_submitted_idx",
+          "columns": [
+            {
+              "expression": "student_profile_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "submitted_at",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "assessment_responses_student_profile_id_student_profiles_id_fk": {
+          "name": "assessment_responses_student_profile_id_student_profiles_id_fk",
+          "tableFrom": "assessment_responses",
+          "tableTo": "student_profiles",
+          "columnsFrom": [
+            "student_profile_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "public.career_degrees": {
+      "name": "career_degrees",
+      "schema": "",
+      "columns": {
+        "career_slug": {
+          "name": "career_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "degree_slug": {
+          "name": "degree_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "fit": {
+          "name": "fit",
+          "type": "degree_fit",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "career_degrees_degree_slug_idx": {
+          "name": "career_degrees_degree_slug_idx",
+          "columns": [
+            {
+              "expression": "degree_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "career_degrees_career_slug_careers_slug_fk": {
+          "name": "career_degrees_career_slug_careers_slug_fk",
+          "tableFrom": "career_degrees",
+          "tableTo": "careers",
+          "columnsFrom": [
+            "career_slug"
+          ],
+          "columnsTo": [
+            "slug"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "career_degrees_degree_slug_degrees_slug_fk": {
+          "name": "career_degrees_degree_slug_degrees_slug_fk",
+          "tableFrom": "career_degrees",
+          "tableTo": "degrees",
+          "columnsFrom": [
+            "degree_slug"
+          ],
+          "columnsTo": [
+            "slug"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "career_degrees_career_slug_degree_slug_pk": {
+          "name": "career_degrees_career_slug_degree_slug_pk",
+          "columns": [
+            "career_slug",
+            "degree_slug"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "public.career_interests": {
+      "name": "career_interests",
+      "schema": "",
+      "columns": {
+        "career_slug": {
+          "name": "career_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "interest_slug": {
+          "name": "interest_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "relevance": {
+          "name": "relevance",
+          "type": "relevance",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "career_interests_interest_slug_idx": {
+          "name": "career_interests_interest_slug_idx",
+          "columns": [
+            {
+              "expression": "interest_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "career_interests_career_slug_careers_slug_fk": {
+          "name": "career_interests_career_slug_careers_slug_fk",
+          "tableFrom": "career_interests",
+          "tableTo": "careers",
+          "columnsFrom": [
+            "career_slug"
+          ],
+          "columnsTo": [
+            "slug"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "career_interests_interest_slug_interests_slug_fk": {
+          "name": "career_interests_interest_slug_interests_slug_fk",
+          "tableFrom": "career_interests",
+          "tableTo": "interests",
+          "columnsFrom": [
+            "interest_slug"
+          ],
+          "columnsTo": [
+            "slug"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "career_interests_career_slug_interest_slug_pk": {
+          "name": "career_interests_career_slug_interest_slug_pk",
+          "columns": [
+            "career_slug",
+            "interest_slug"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "public.career_priorities": {
+      "name": "career_priorities",
+      "schema": "",
+      "columns": {
+        "career_slug": {
+          "name": "career_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "priority": {
+          "name": "priority",
+          "type": "career_priority",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "career_priorities_career_slug_careers_slug_fk": {
+          "name": "career_priorities_career_slug_careers_slug_fk",
+          "tableFrom": "career_priorities",
+          "tableTo": "careers",
+          "columnsFrom": [
+            "career_slug"
+          ],
+          "columnsTo": [
+            "slug"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "career_priorities_career_slug_priority_pk": {
+          "name": "career_priorities_career_slug_priority_pk",
+          "columns": [
+            "career_slug",
+            "priority"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "public.career_skills": {
+      "name": "career_skills",
+      "schema": "",
+      "columns": {
+        "career_slug": {
+          "name": "career_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "skill_slug": {
+          "name": "skill_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "importance": {
+          "name": "importance",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "career_skills_skill_slug_idx": {
+          "name": "career_skills_skill_slug_idx",
+          "columns": [
+            {
+              "expression": "skill_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "career_skills_career_slug_careers_slug_fk": {
+          "name": "career_skills_career_slug_careers_slug_fk",
+          "tableFrom": "career_skills",
+          "tableTo": "careers",
+          "columnsFrom": [
+            "career_slug"
+          ],
+          "columnsTo": [
+            "slug"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "career_skills_skill_slug_skills_slug_fk": {
+          "name": "career_skills_skill_slug_skills_slug_fk",
+          "tableFrom": "career_skills",
+          "tableTo": "skills",
+          "columnsFrom": [
+            "skill_slug"
+          ],
+          "columnsTo": [
+            "slug"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "career_skills_career_slug_skill_slug_pk": {
+          "name": "career_skills_career_slug_skill_slug_pk",
+          "columns": [
+            "career_slug",
+            "skill_slug"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "career_skills_importance_range": {
+          "name": "career_skills_importance_range",
+          "value": "\"career_skills\".\"importance\" between 1 and 3"
+        }
+      },
+      "isRLSEnabled": true
+    },
+    "public.career_work_types": {
+      "name": "career_work_types",
+      "schema": "",
+      "columns": {
+        "career_slug": {
+          "name": "career_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "work_type": {
+          "name": "work_type",
+          "type": "work_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "relevance": {
+          "name": "relevance",
+          "type": "relevance",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "career_work_types_career_slug_careers_slug_fk": {
+          "name": "career_work_types_career_slug_careers_slug_fk",
+          "tableFrom": "career_work_types",
+          "tableTo": "careers",
+          "columnsFrom": [
+            "career_slug"
+          ],
+          "columnsTo": [
+            "slug"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "career_work_types_career_slug_work_type_pk": {
+          "name": "career_work_types_career_slug_work_type_pk",
+          "columns": [
+            "career_slug",
+            "work_type"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "public.careers": {
+      "name": "careers",
+      "schema": "",
+      "columns": {
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "summary": {
+          "name": "summary",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "responsibilities": {
+          "name": "responsibilities",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "education_summary": {
+          "name": "education_summary",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "work_style": {
+          "name": "work_style",
+          "type": "work_style",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "work_environment": {
+          "name": "work_environment",
+          "type": "career_environment",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "first_steps": {
+          "name": "first_steps",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sort_order": {
+          "name": "sort_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "public.degrees": {
+      "name": "degrees",
+      "schema": "",
+      "columns": {
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "level": {
+          "name": "level",
+          "type": "education_level",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sort_order": {
+          "name": "sort_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "public.interests": {
+      "name": "interests",
+      "schema": "",
+      "columns": {
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sort_order": {
+          "name": "sort_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "public.match_results": {
+      "name": "match_results",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "always",
+            "name": "match_results_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "9223372036854775807",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "assessment_response_id": {
+          "name": "assessment_response_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "career_slug": {
+          "name": "career_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rank": {
+          "name": "rank",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "match_percent": {
+          "name": "match_percent",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "breakdown": {
+          "name": "breakdown",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "algorithm_version": {
+          "name": "algorithm_version",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "match_results_response_career_key": {
+          "name": "match_results_response_career_key",
+          "columns": [
+            {
+              "expression": "assessment_response_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "career_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "match_results_response_rank_key": {
+          "name": "match_results_response_rank_key",
+          "columns": [
+            {
+              "expression": "assessment_response_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "rank",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "match_results_career_slug_idx": {
+          "name": "match_results_career_slug_idx",
+          "columns": [
+            {
+              "expression": "career_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "match_results_assessment_response_id_assessment_responses_id_fk": {
+          "name": "match_results_assessment_response_id_assessment_responses_id_fk",
+          "tableFrom": "match_results",
+          "tableTo": "assessment_responses",
+          "columnsFrom": [
+            "assessment_response_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "match_results_career_slug_careers_slug_fk": {
+          "name": "match_results_career_slug_careers_slug_fk",
+          "tableFrom": "match_results",
+          "tableTo": "careers",
+          "columnsFrom": [
+            "career_slug"
+          ],
+          "columnsTo": [
+            "slug"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "match_results_percent_range": {
+          "name": "match_results_percent_range",
+          "value": "\"match_results\".\"match_percent\" between 0 and 100"
+        },
+        "match_results_rank_positive": {
+          "name": "match_results_rank_positive",
+          "value": "\"match_results\".\"rank\" > 0"
+        }
+      },
+      "isRLSEnabled": true
+    },
+    "public.skill_learning_steps": {
+      "name": "skill_learning_steps",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "always",
+            "name": "skill_learning_steps_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "9223372036854775807",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "skill_slug": {
+          "name": "skill_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "step_order": {
+          "name": "step_order",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "resource_name": {
+          "name": "resource_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "resource_url": {
+          "name": "resource_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "estimated_hours": {
+          "name": "estimated_hours",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "skill_learning_steps_skill_order_key": {
+          "name": "skill_learning_steps_skill_order_key",
+          "columns": [
+            {
+              "expression": "skill_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "step_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "skill_learning_steps_skill_slug_skills_slug_fk": {
+          "name": "skill_learning_steps_skill_slug_skills_slug_fk",
+          "tableFrom": "skill_learning_steps",
+          "tableTo": "skills",
+          "columnsFrom": [
+            "skill_slug"
+          ],
+          "columnsTo": [
+            "slug"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "skill_learning_steps_hours_positive": {
+          "name": "skill_learning_steps_hours_positive",
+          "value": "\"skill_learning_steps\".\"estimated_hours\" > 0"
+        },
+        "skill_learning_steps_url_https": {
+          "name": "skill_learning_steps_url_https",
+          "value": "\"skill_learning_steps\".\"resource_url\" is null or \"skill_learning_steps\".\"resource_url\" like 'https://%'"
+        }
+      },
+      "isRLSEnabled": true
+    },
+    "public.skills": {
+      "name": "skills",
+      "schema": "",
+      "columns": {
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "category": {
+          "name": "category",
+          "type": "skill_category",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_foundational": {
+          "name": "is_foundational",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "sort_order": {
+          "name": "sort_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "public.student_profiles": {
+      "name": "student_profiles",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "full_name": {
+          "name": "full_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "college": {
+          "name": "college",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "education_level": {
+          "name": "education_level",
+          "type": "education_level",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "degree_slug": {
+          "name": "degree_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "graduation_year": {
+          "name": "graduation_year",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "student_profiles_degree_slug_idx": {
+          "name": "student_profiles_degree_slug_idx",
+          "columns": [
+            {
+              "expression": "degree_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "student_profiles_degree_slug_degrees_slug_fk": {
+          "name": "student_profiles_degree_slug_degrees_slug_fk",
+          "tableFrom": "student_profiles",
+          "tableTo": "degrees",
+          "columnsFrom": [
+            "degree_slug"
+          ],
+          "columnsTo": [
+            "slug"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "student_profiles_full_name_length": {
+          "name": "student_profiles_full_name_length",
+          "value": "char_length(\"student_profiles\".\"full_name\") between 2 and 100"
+        },
+        "student_profiles_graduation_year_range": {
+          "name": "student_profiles_graduation_year_range",
+          "value": "\"student_profiles\".\"graduation_year\" is null or \"student_profiles\".\"graduation_year\" between 1980 and 2100"
+        }
+      },
+      "isRLSEnabled": true
+    }
+  },
+  "enums": {
+    "public.career_environment": {
+      "name": "career_environment",
+      "schema": "public",
+      "values": [
+        "structured",
+        "dynamic",
+        "balanced"
+      ]
+    },
+    "public.career_priority": {
+      "name": "career_priority",
+      "schema": "public",
+      "values": [
+        "high-salary",
+        "job-stability",
+        "fast-growth",
+        "work-life-balance",
+        "creativity",
+        "social-impact",
+        "leadership-role"
+      ]
+    },
+    "public.degree_fit": {
+      "name": "degree_fit",
+      "schema": "public",
+      "values": [
+        "preferred",
+        "accepted"
+      ]
+    },
+    "public.education_level": {
+      "name": "education_level",
+      "schema": "public",
+      "values": [
+        "undergraduate",
+        "postgraduate",
+        "other"
+      ]
+    },
+    "public.relevance": {
+      "name": "relevance",
+      "schema": "public",
+      "values": [
+        "primary",
+        "secondary"
+      ]
+    },
+    "public.skill_category": {
+      "name": "skill_category",
+      "schema": "public",
+      "values": [
+        "general",
+        "technology",
+        "data",
+        "business-finance",
+        "people-management",
+        "marketing"
+      ]
+    },
+    "public.work_style": {
+      "name": "work_style",
+      "schema": "public",
+      "values": [
+        "independent",
+        "mixed",
+        "team"
+      ]
+    },
+    "public.work_type": {
+      "name": "work_type",
+      "schema": "public",
+      "values": [
+        "analytical",
+        "creative",
+        "people-oriented",
+        "technical",
+        "management-oriented"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

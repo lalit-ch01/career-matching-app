@@ -6,9 +6,19 @@ node_modules/
 .env.local
 .env.*.local
 
-# Build output
+# Next.js / build output
+.next/
+out/
 dist/
 build/
+next-env.d.ts
+*.tsbuildinfo
+
+# Local development database (npm run db:local)
+.pglite/
+
+# Test coverage
+coverage/
 
 # Editor/OS
 .DS_Store

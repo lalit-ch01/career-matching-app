@@ -39,7 +39,7 @@ An AI-assisted (initially rule-based/weighted) matching system that:
 - The **final product is a separate working web application** — the Google Form is not the product.
 - **Figma will NOT be used** for design. UI/UX decisions happen directly in code.
 - Development happens **directly in VS Code using Claude Code**.
-- No application code exists yet — this is a fresh build.
+- The full prototype is built (Next.js app, database schema, seed data, matching engine, all pages, tests). The remaining step is connecting a real Supabase project — see `NEXT_PHASE.md`.
 
 ---
 
@@ -47,10 +47,9 @@ An AI-assisted (initially rule-based/weighted) matching system that:
 
 Use this stack. Do not introduce additional technologies/frameworks unless there is a clear, specific reason — ask before adding anything not listed here.
 
-- **Frontend:** React (with JavaScript/TypeScript as appropriate)
-- **Backend:** Node.js
-- **Database / backend services:** Supabase
-- **Styling:** HTML/CSS (utility CSS framework is fine if it speeds things up — confirm choice when we reach that step)
+- **Frontend + backend:** Next.js (App Router, React, TypeScript). Next.js is the whole backend: Server Components read data, Server Actions handle mutations, Route Handlers serve `/api/*`.
+- **Database:** Supabase **Postgres only**, accessed from the Next.js server with Drizzle ORM over a direct Postgres connection. Do **not** use Supabase Auth, Edge Functions, Storage, Realtime or `supabase-js`.
+- **Styling:** Tailwind CSS
 - **Data:** Skills data / Career Database (stored in Supabase)
 - **APIs/plugins:** Only when genuinely useful — avoid adding integrations "just in case"
 - **AI/ML:** Used where it genuinely improves matching or explanation, not for its own sake
@@ -77,18 +76,24 @@ Student
 
 ## 5. Career Database
 
-Seed the database with these example careers initially:
+The career database follows the team's agreed taxonomy (24 skills, 9 interests, 14 career roles, and career → skill / career → interest mappings), stored in `src/server/db/seed-data/`:
 
-1. Software Engineer
-2. Data Analyst
-3. HR Executive
-4. HR Analyst
-5. Financial Analyst
+1. Data Analyst
+2. Business Analyst
+3. Financial Analyst
+4. HR Executive
+5. HR Recruiter
 6. Marketing Executive
-7. Business Analyst
-8. Project Manager
-9. Digital Marketing Specialist
-10. Operations Manager
+7. Digital Marketing Executive
+8. Operations Executive
+9. Project Coordinator
+10. Research Analyst
+11. Management Trainee
+12. Software Developer
+13. Business Development Executive
+14. Talent Acquisition Specialist
+
+Run `npm run db:seed -- --check` to validate the data before seeding (blocking problems + warnings that need a team decision).
 
 Each career record should support:
 - Career name
@@ -124,7 +129,7 @@ Show multiple ranked career matches, e.g.:
 
 ```
 Data Analyst — 84% Match
-HR Analyst — 78% Match
+Research Analyst — 78% Match
 Business Analyst — 75% Match
 ```
 
@@ -151,7 +156,9 @@ Design a clean schema. Suggested tables (adjust as needed, but avoid unnecessary
 - `assessment_responses` — raw responses from the in-app assessment
 - `match_results` — (optional) stored match results per student, if persistence is needed
 
-Keep secrets (Supabase URL/keys) in environment variables. **Never expose the Supabase service-role key in frontend code** — only the public anon key should be used client-side, with row-level security configured appropriately.
+Implemented schema: see `src/server/db/schema.ts` and `docs/ARCHITECTURE.md` (adds `degrees`, `career_degrees`, `career_work_types`, `career_priorities` and `skill_learning_steps`, which the matching model needs).
+
+Keep secrets in server-side environment variables (`DATABASE_URL`, `SESSION_SECRET`). The browser never talks to Supabase directly: no Supabase keys are used in the frontend at all. Row Level Security is enabled on every table with no policies, and the `anon`/`authenticated` roles have their table privileges revoked, so Supabase's auto-generated public API exposes nothing.
 
 ---
 
@@ -205,7 +212,7 @@ Keep secrets (Supabase URL/keys) in environment variables. **Never expose the Su
 - Keep the application responsive across mobile and laptop screens.
 - Don't hardcode data that belongs in Supabase.
 - Keep all secrets/API keys in environment variables.
-- Never expose the Supabase service-role key in frontend code.
+- Never expose database credentials or any Supabase key in frontend code (nothing is prefixed `NEXT_PUBLIC_`).
 
 ---
 
