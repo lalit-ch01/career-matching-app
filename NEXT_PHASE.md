@@ -25,7 +25,7 @@ does manually.
 | 12 | Learning path | ✅ Phased (core → supporting skills), steps, resources, hour estimates |
 | 13 | Testing | ✅ 88 unit/integration tests + `npm run verify` against the live database (incl. checks that the seed data matches the team taxonomy); full browser journey checked on desktop and phone widths |
 | 14 | UI/UX | ✅ Responsive and accessible (labels, focus handling, keyboard navigation) |
-| 15 | Demo preparation | 🟡 Methodology page + architecture doc done; demo script still to write |
+| 15 | Demo preparation | ✅ Methodology page, architecture doc and demo script (`docs/DEMO_SCRIPT.md`) done |
 
 ## Remaining steps
 
@@ -50,9 +50,9 @@ database (South Asia / Mumbai, `ap-south-1`).
 **Test:** the live URL works end to end on a phone and a laptop.
 
 ### 3. Avishkar material
-- Demo script, e.g. three sample students (data-minded BSc, people-focused
-  BBA, creative BA) whose expected rankings are covered by
-  `src/lib/matching/engine.test.ts`.
+- Demo script: written, see `docs/DEMO_SCRIPT.md`. Rehearse it on the deployed
+  URL and on a phone, and fill in the Google Form findings it leaves as
+  placeholders.
 - Research methodology write-up: link the Google Form survey to the
   assessment taxonomy (mapping is documented in `src/lib/assessment/questions.ts`).
 - Architecture/database diagrams: source material in `docs/ARCHITECTURE.md`.

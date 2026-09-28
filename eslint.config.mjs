@@ -17,8 +17,6 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     "drizzle/**",
-    // Legacy Vite prototype, superseded by the Next.js app in src/.
-    "frontend/**",
   ]),
 ]);
 

@@ -12,7 +12,8 @@ explanation, their skill gaps, and a phased learning path for each career.
   ML model). See `/methodology` in the app or `src/lib/matching/`.
 - Project rules and context: [PROJECT_INSTRUCTIONS.md](PROJECT_INSTRUCTIONS.md).
   Status and what's left: [NEXT_PHASE.md](NEXT_PHASE.md). System and database
-  design: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+  design: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Live demo walkthrough:
+  [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md).
 
 ## Student journey
 

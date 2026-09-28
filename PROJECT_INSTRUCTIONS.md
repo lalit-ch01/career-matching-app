@@ -7,7 +7,7 @@
 
 ## 1. Project Overview
 
-**Title:** From Degree to Career: An AI-Based Skill & Interest Matching Approach for Indian Gen Z
+**Title:** From Degree to Career: An Explainable Skill & Interest Matching Approach for Indian Gen Z
 
 **Purpose:**
 Indian Gen Z students frequently struggle to translate their academic background, skills, and interests into clear, realistic career paths. This project builds a web application that analyzes a student's profile (education, skills, interests, work preferences) and matches them against a structured career database, producing explainable career recommendations with a match percentage, skill gap analysis, and a personalized learning path.
@@ -19,7 +19,7 @@ Indian college students / recent graduates (Gen Z) exploring career options.
 Students often choose careers based on peer pressure, family expectations, or incomplete information, rather than a structured understanding of how their skills and interests align with real career paths. There is a lack of accessible, explainable tools that connect a student's profile to concrete, actionable career guidance.
 
 **Proposed Solution:**
-An AI-assisted (initially rule-based/weighted) matching system that:
+An explainable, rule-based weighted matching system that:
 - Collects a student's profile and assessment responses
 - Compares them against a structured career database
 - Produces ranked career matches with a transparent match percentage
